@@ -428,10 +428,14 @@ class Dumper
 		} elseif (is_float($var)) {
 			return is_finite($var)
 				? (strpos($tmp = json_encode($var), '.') ? $var : new Model(['number' => "$tmp.0"]))
-				: new Model(['type' => (string) $var]);
+				: new Model(['number' => (string) $var]);
 
 		} elseif (is_string($var)) {
-			return $this->encodeString($var, $this->maxLength);
+				$s = $this->encodeString($var, $this->maxLength);
+				if ($s === $var) {
+					return $s;
+				}
+				return new Model(['string' => $s, 'length' => strlen($var)]);
 
 		} elseif (is_array($var)) {
 			static $marker;
@@ -449,7 +453,7 @@ class Dumper
 						$res[] = [
 							$this->encodeKey($k),
 							is_string($k) && isset($this->keysToHide[strtolower($k)])
-								? new Model(['type' => self::hideValue($v)])
+								? new Model(['text' => self::hideValue($v)])
 								: $this->toJson($v, $depth + 1),
 						];
 					}
@@ -492,7 +496,7 @@ class Dumper
 					$obj->items[] = [
 						$this->encodeKey($k),
 						isset($this->keysToHide[strtolower($k)])
-							? new Model(['type' => self::hideValue($v)])
+							? new Model(['text' => self::hideValue($v)])
 							: $this->toJson($v, $depth + 1),
 						$vis,
 					];
