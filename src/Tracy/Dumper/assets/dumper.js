@@ -97,7 +97,9 @@
 		let type = data === null ? 'null' : typeof data,
 			collapseCount = collapsed === null ? COLLAPSE_COUNT : COLLAPSE_COUNT_TOP;
 
-		if (type === 'string') {
+		if (Array.isArray(data)) {
+			data = {array: data};
+		} else if (type === 'string') {
 			data = {string: data};
 		}
 
@@ -110,26 +112,29 @@
 				)
 			]);
 
-		} else if (Array.isArray(data)) {
+		} else if (data.array) {
+			if (data.cut === 'r' || data.cut === 'd') {
+				return createEl(null, null, [
+					createEl('span', {'class': 'tracy-dump-array'}, ['array']),
+					' (' + data.length + ')',
+					data.cut === 'r' ? ' [ RECURSION ]\n' : ' [ ... ]\n',
+				]);
+			}
+
+			let len = data.length || data.array.length;
 			return buildStruct(
 				[
 					createEl('span', {'class': 'tracy-dump-array'}, ['array']),
-					' (' + (data[0] && data.length || '') + ')'
+					' (' + len + ')'
 				],
 				' [ ... ]',
-				data[0] === null ? null : data,
-				collapsed === true || data.length >= collapseCount,
+				data.array,
+				collapsed === true || len >= collapseCount,
+
 				TYPE_ARRAY,
 				repository,
 				parentIds
 			);
-
-		} else if (data.stop) {
-			return createEl(null, null, [
-				createEl('span', {'class': 'tracy-dump-array'}, ['array']),
-				' (' + data.stop[0] + ')',
-				data.stop[1] ? ' [ RECURSION ]\n' : ' [ ... ]\n',
-			]);
 
 		} else if (data.number) {
 			return createEl(null, null, [

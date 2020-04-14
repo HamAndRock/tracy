@@ -113,10 +113,9 @@ final class Describer
 	private function describeArray(array $arr, int $depth = 0, int $refId = null)
 	{
 		if ($refId && in_array($refId, $this->parentArrays, true)) {
-			return new Model(['stop' => [count($arr), true]]);
-
+			return new Model(['array' => [], 'cut' => 'r', 'length' => count($arr)]);
 		} elseif (count($arr) && $depth >= $this->maxDepth) {
-			return new Model(['stop' => [count($arr), false]]);
+			return new Model(['array' => [], 'cut' => 'd', 'length' => count($arr)]);
 		}
 
 		$this->parentArrays[] = $refId;
