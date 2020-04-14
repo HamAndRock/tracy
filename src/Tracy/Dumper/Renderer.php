@@ -163,9 +163,9 @@ final class Renderer
 			return $out . $model->length . ') ' . ($model->cut === 'r' ? '[ <i>RECURSION</i> ]' : '[ ... ]') . "\n";
 		}
 
-		[$items, $count] = is_array($model)
-			? [$model, count($model)]
-			: [$model->array, $model->length ?? count($model->array)];
+		[$items, $count, $cut] = is_array($model)
+			? [$model, count($model), false]
+			: [$model->array, $model->length ?? count($model->array), !empty($model->cut)];
 
 		if (empty($items)) {
 			return $out . ")\n";
@@ -186,15 +186,19 @@ final class Renderer
 
 		$out = $span . '>' . $out . $count . ")</span>\n" . '<div' . ($collapsed ? ' class="tracy-collapsed"' : '') . '>';
 		$fill = [2 => null];
+		$indent = '<span class="tracy-dump-indent">   ' . str_repeat('|  ', $depth) . '</span>';
 
 		foreach ($items as $info) {
 			[$k, $v, $ref] = $info + $fill;
-			$out .= '<span class="tracy-dump-indent">   ' . str_repeat('|  ', $depth) . '</span>'
+			$out .= $indent
 				. '<span class="tracy-dump-key">' . Helpers::escapeHtml($k) . '</span> => '
 				. ($ref ? '<span class="tracy-dump-hash">&' . $ref . '</span> ' : '')
 				. $this->renderVar($v, $depth + 1);
 		}
 
+		if ($cut) {
+			$out .= $indent . "...\n";
+		}
 		return $out . '</div>';
 	}
 
@@ -241,6 +245,7 @@ final class Renderer
 		}
 
 		$out = $span . '>' . $out . "</span>\n" . '<div' . ($collapsed ? ' class="tracy-collapsed"' : '') . '>';
+		$indent = '<span class="tracy-dump-indent">   ' . str_repeat('|  ', $depth) . '</span>';
 		$this->parents[] = $model->object;
 		$fill = [3 => null];
 
@@ -254,11 +259,15 @@ final class Renderer
 
 		foreach ($object->items as $info) {
 			[$k, $v, $type, $ref] = $info + $fill;
-			$out .= '<span class="tracy-dump-indent">   ' . str_repeat('|  ', $depth) . '</span>'
+			$out .= $indent
 				. '<span class="' . $classes[$type] . '">' . Helpers::escapeHtml($k) . '</span>'
 				. ': '
 				. ($ref ? '<span class="tracy-dump-hash">&' . $ref . '</span> ' : '')
 				. $this->renderVar($v, $depth + 1);
+		}
+
+		if (!empty($object->cut)) {
+			$out .= $indent . "...\n";
 		}
 		array_pop($this->parents);
 		return $out . '</div>';
