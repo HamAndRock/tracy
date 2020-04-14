@@ -39,7 +39,7 @@ Assert::match('stdClass #%d%
 // custom exposer & new format
 $exporters = [
 	'stdClass' => function ($var) {
-		return [['x', $var->a + 2, Tracy\Exposer::PROP_PUBLIC]];
+		return [['x', $var->a + 2]];
 	},
 ];
 Assert::match('stdClass #%d%

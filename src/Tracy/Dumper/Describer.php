@@ -213,7 +213,9 @@ final class Describer
 		foreach ($this->objectExposers as $type => $dumper) {
 			if (!$type || $obj instanceof $type) {
 				$info = $dumper($obj);
-				return isset($info[0][0]) ? $info : Exposer::convert($info);
+				return isset($info[0][0])
+					? array_map(function ($x) { $x[2] = $x[2] ?? Exposer::PROP_VIRTUAL; return $x; }, $info)
+					: Exposer::convert($info);
 			}
 		}
 

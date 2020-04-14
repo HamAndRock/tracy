@@ -231,6 +231,7 @@
 			'tracy-dump-protected',
 			'tracy-dump-private',
 			'tracy-dump-dynamic',
+			'tracy-dump-virtual',
 		];
 
 		let key, val, vis, ref, i;
@@ -246,7 +247,7 @@
 					? createEl('span', {'class': 'tracy-dump-key'}, [key])
 					: createEl(
 						'span',
-						{'class': type === TYPE_OBJECT ? classes[vis] : 'tracy-dump-key'},
+						{'class': classes[type === TYPE_OBJECT ? vis : 4]},
 						[key]
 					),
 				' => ',
