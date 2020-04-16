@@ -92,6 +92,7 @@ final class Renderer
 			}, $s);
 		}
 		$s = htmlspecialchars_decode(strip_tags($s), ENT_QUOTES);
+		$s = str_replace('…', '...', $s);
 
 		if ($this->locationLink && ([$file, $line] = $location)) {
 			$s .= "in $file:$line";
@@ -160,7 +161,7 @@ final class Renderer
 	{
 		$out = '<span class="tracy-dump-array">array</span> (';
 		if (in_array($model->cut ?? null, ['r', 'd'], true)) {
-			return $out . $model->length . ') ' . ($model->cut === 'r' ? '[ <i>RECURSION</i> ]' : '[ ... ]') . "\n";
+			return $out . $model->length . ') ' . ($model->cut === 'r' ? '[ <i>RECURSION</i> ]' : '[ … ]') . "\n";
 		}
 
 		[$items, $count, $cut] = is_array($model)
@@ -197,7 +198,7 @@ final class Renderer
 		}
 
 		if ($cut) {
-			$out .= $indent . "...\n";
+			$out .= $indent . "…\n";
 		}
 		return $out . '</div>';
 	}
@@ -222,7 +223,7 @@ final class Renderer
 			. '</span> <span class="tracy-dump-hash">#' . $model->object . '</span>';
 
 		if (!isset($object->items)) {
-			return $out . " { ... }\n";
+			return $out . " { … }\n";
 
 		} elseif (!$object->items) {
 			return $out . "\n";
@@ -267,7 +268,7 @@ final class Renderer
 		}
 
 		if (!empty($object->cut)) {
-			$out .= $indent . "...\n";
+			$out .= $indent . "…\n";
 		}
 		array_pop($this->parents);
 		return $out . '</div>';

@@ -117,7 +117,7 @@
 				return createEl(null, null, [
 					createEl('span', {'class': 'tracy-dump-array'}, ['array']),
 					' (' + data.length + ')',
-					data.cut === 'r' ? ' [ RECURSION ]\n' : ' [ ... ]\n',
+					data.cut === 'r' ? ' [ RECURSION ]\n' : ' [ … ]\n',
 				]);
 			}
 
@@ -127,7 +127,7 @@
 					createEl('span', {'class': 'tracy-dump-array'}, ['array']),
 					' (' + len + ')'
 				],
-				' [ ... ]',
+				' [ … ]',
 				data.array,
 				collapsed === true || len >= collapseCount,
 				data.cut,
@@ -173,7 +173,7 @@
 					' ',
 					createEl('span', {'class': 'tracy-dump-hash'}, [data.resource ? '@' + id.substr(1) : '#' + id])
 				],
-				recursive ? ' { RECURSION }' : ' { ... }',
+				recursive ? ' { RECURSION }' : ' { … }',
 				recursive ? null : object.items,
 				collapsed === true || (object.items && object.items.length >= collapseCount),
 				object.cut,
@@ -204,13 +204,13 @@
 				toggle.removeEventListener('tracy-toggle', handler);
 				createItems(div, items, type, repository, parentIds);
 				if (cut) {
-					createEl(div, null, ['...']);
+					createEl(div, null, ['…']);
 				}
 			});
 		} else {
 			createItems(div, items, type, repository, parentIds);
 			if (cut) {
-				createEl(div, null, ['...']);
+				createEl(div, null, ['…']);
 			}
 		}
 		return res;
