@@ -19,9 +19,9 @@ final class Exposer
 	public const
 		PROP_PUBLIC = 0,
 		PROP_PROTECTED = 1,
-		PROP_PRIVATE = 2,
 		PROP_DYNAMIC = 3,
 		PROP_VIRTUAL = 4;
+		// private is string
 
 
 	public static function convert(array $arr, int $type = self::PROP_VIRTUAL): array
@@ -45,7 +45,7 @@ final class Exposer
 			if (isset($k[0]) && $k[0] === "\x00") {
 				$info = explode("\00", $k);
 				$k = end($info);
-				$type = $info[1] === '*' ? self::PROP_PROTECTED : self::PROP_PRIVATE;
+				$type = $info[1] === '*' ? self::PROP_PROTECTED : $info[1];
 			} else {
 				$type = \array_key_exists($k, $defaults) ? self::PROP_PUBLIC : self::PROP_DYNAMIC;
 			}
@@ -80,7 +80,7 @@ final class Exposer
 			$res = self::exposeObject($obj);
 			$obj->setFlags($flags);
 		}
-		$res[] = ['storage', $obj->getArrayCopy(), self::PROP_PRIVATE];
+		$res[] = ['storage', $obj->getArrayCopy(), \ArrayObject::class];
 		return $res;
 	}
 

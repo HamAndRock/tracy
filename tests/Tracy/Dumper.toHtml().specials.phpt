@@ -65,7 +65,7 @@ Assert::same($key, $objStorage->key());
 // ArrayObject
 $obj = new ArrayObject(['a' => 1, 'b' => 2]);
 Assert::match('<pre class="tracy-dump"><span class="tracy-toggle"><span class="tracy-dump-object">ArrayObject</span> <span class="tracy-dump-hash">#%d%</span></span>
-<div><span class="tracy-dump-indent">   </span><span class="tracy-dump-private">storage</span>: <span class="tracy-toggle"><span class="tracy-dump-array">array</span> (2)</span>
+<div><span class="tracy-dump-indent">   </span><span class="tracy-dump-private" title="declared in ArrayObject">storage</span>: <span class="tracy-toggle"><span class="tracy-dump-array">array</span> (2)</span>
 <div><span class="tracy-dump-indent">   |  </span><span class="tracy-dump-key">a</span> => <span class="tracy-dump-number">1</span>
 <span class="tracy-dump-indent">   |  </span><span class="tracy-dump-key">b</span> => <span class="tracy-dump-number">2</span>
 </div></div></pre>', Dumper::toHtml($obj));
@@ -78,7 +78,7 @@ class ArrayObjectChild extends ArrayObject
 $obj = new ArrayObjectChild(['a' => 1, 'b' => 2]);
 Assert::match('<pre class="tracy-dump"><span class="tracy-toggle"><span class="tracy-dump-object">ArrayObjectChild</span> <span class="tracy-dump-hash">#%d%</span></span>
 <div><span class="tracy-dump-indent">   </span><span class="tracy-dump-public">prop</span>: <span class="tracy-dump-number">123</span>
-<span class="tracy-dump-indent">   </span><span class="tracy-dump-private">storage</span>: <span class="tracy-toggle"><span class="tracy-dump-array">array</span> (2)</span>
+<span class="tracy-dump-indent">   </span><span class="tracy-dump-private" title="declared in ArrayObject">storage</span>: <span class="tracy-toggle"><span class="tracy-dump-array">array</span> (2)</span>
 <div><span class="tracy-dump-indent">   |  </span><span class="tracy-dump-key">a</span> => <span class="tracy-dump-number">1</span>
 <span class="tracy-dump-indent">   |  </span><span class="tracy-dump-key">b</span> => <span class="tracy-dump-number">2</span>
 </div></div></pre>', Dumper::toHtml($obj));
