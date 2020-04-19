@@ -18,12 +18,14 @@ Assert::match("stream resource @%d%\n   %S%%A%", Dumper::toText(fopen(__FILE__, 
 
 
 // closure
-Assert::match('Closure #%d%
+Assert::match(<<<'XX'
+Closure #%d%
    file: "%a%" (%i%)
    line: %i%
    variables: array ()
    parameters: ""
-', Dumper::toText(function () {}));
+XX
+, Dumper::toText(function () {}));
 
 
 // new class
@@ -47,7 +49,8 @@ $objStorage[$o2] = 'o2';
 $objStorage->next();
 $key = $objStorage->key();
 
-Assert::match('SplObjectStorage #%d%
+Assert::match(<<<'XX'
+SplObjectStorage #%d%
    0: array (2)
    |  object => stdClass #%d%
    |  data => "o1" (2)
@@ -55,18 +58,21 @@ Assert::match('SplObjectStorage #%d%
    |  object => stdClass #%d%
    |  |  foo: "bar" (3)
    |  data => "o2" (2)
-', Dumper::toText($objStorage));
+XX
+, Dumper::toText($objStorage));
 
 Assert::same($key, $objStorage->key());
 
 
 // ArrayObject
 $obj = new ArrayObject(['a' => 1, 'b' => 2]);
-Assert::match('ArrayObject #%d%
+Assert::match(<<<'XX'
+ArrayObject #%d%
    storage: array (2)
    |  a => 1
    |  b => 2
-', Dumper::toText($obj));
+XX
+, Dumper::toText($obj));
 
 class ArrayObjectChild extends ArrayObject
 {
@@ -74,9 +80,11 @@ class ArrayObjectChild extends ArrayObject
 }
 
 $obj = new ArrayObjectChild(['a' => 1, 'b' => 2]);
-Assert::match('ArrayObjectChild #%d%
+Assert::match(<<<'XX'
+ArrayObjectChild #%d%
    prop: 123
    storage: array (2)
    |  a => 1
    |  b => 2
-', Dumper::toText($obj));
+XX
+, Dumper::toText($obj));
