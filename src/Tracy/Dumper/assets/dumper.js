@@ -148,7 +148,7 @@
 
 		} else if (data.string !== undefined) {
 			return createEl(null, null, [
-				createEl('span', {'class': 'tracy-dump-string'}, ['"' + data.string + '"']),
+				createEl('span', {'class': 'tracy-dump-string'}, ['\'' + data.string + '\'']),
 				' (' + (data.length || data.string.length) + ')\n',
 			]);
 

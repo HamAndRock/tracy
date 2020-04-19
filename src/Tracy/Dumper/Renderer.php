@@ -121,9 +121,9 @@ final class Renderer
 				return '<span class="tracy-dump-number">' . json_encode($model) . "</span>\n";
 
 			case is_string($model):
-				return '<span class="tracy-dump-string">"'
+				return '<span class="tracy-dump-string">\''
 					. Helpers::escapeHtml($model)
-					. '"</span>' . (strlen($model) > 1 ? ' (' . strlen($model) . ')' : '') . "\n";
+					. '\'</span>' . (strlen($model) > 1 ? ' (' . strlen($model) . ')' : '') . "\n";
 
 			case is_array($model):
 				return $this->renderArray($model, $depth);
@@ -141,9 +141,9 @@ final class Renderer
 				return '<span>' . Helpers::escapeHtml($model->text) . "</span>\n";
 
 			case isset($model->string):
-				return '<span class="tracy-dump-string">"'
+				return '<span class="tracy-dump-string">\''
 					. Helpers::escapeHtml($model->string)
-					. '"</span>' . ($model->length > 1 ? ' (' . $model->length . ')' : '') . "\n";
+					. '\'</span>' . ($model->length > 1 ? ' (' . $model->length . ')' : '') . "\n";
 
 			case isset($model->resource):
 				return $this->renderResource($model, $depth);
