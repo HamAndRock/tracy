@@ -132,7 +132,7 @@ final class Describer
 		foreach ($arr as $k => $v) {
 			$refId = $this->getReferenceId($arr, $k);
 			$items[] = [
-				$this->encodeKey($k),
+				is_int($k) ? $k : $this->encodeKey($k),
 				is_string($k) && isset($this->keysToHide[strtolower($k)])
 					? new Model(['text' => self::hideValue($v)])
 					: $this->describeVar($v, $depth + 1, $refId),
@@ -200,7 +200,7 @@ final class Describer
 			$shot = (object) ['name' => $type . ' resource'];
 			if (isset($this->resourceExposers[$type])) {
 				foreach (($this->resourceExposers[$type])($resource) as $k => $v) {
-					$shot->items[] = [$k, $this->describeVar($v, $depth + 1)];
+					$shot->items[] = [htmlspecialchars($k), $this->describeVar($v, $depth + 1)];
 				}
 			}
 		}
@@ -215,7 +215,7 @@ final class Describer
 	private function encodeKey($key)
 	{
 		return is_int($key) || (preg_match('#^[\w!\#$%&*+./;<>?@^{|}~-]{1,50}$#D', $key) && !preg_match('#^true|false|null$#iD', $key))
-			? $key
+			? htmlspecialchars((string) $key)
 			: "'" . Helpers::encodeString($key, $this->maxLength) . "'";
 	}
 

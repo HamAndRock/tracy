@@ -122,7 +122,7 @@ final class Renderer
 
 			case is_string($model):
 				return '<span class="tracy-dump-string">\''
-					. Helpers::escapeHtml($model)
+					. $model
 					. '\'</span>' . (strlen($model) > 1 ? ' (' . strlen($model) . ')' : '') . "\n";
 
 			case is_array($model):
@@ -142,7 +142,7 @@ final class Renderer
 
 			case isset($model->string):
 				return '<span class="tracy-dump-string">\''
-					. Helpers::escapeHtml($model->string)
+					. $model->string
 					. '\'</span>' . ($model->length > 1 ? ' (' . $model->length . ')' : '') . "\n";
 
 			case isset($model->resource):
@@ -192,7 +192,7 @@ final class Renderer
 		foreach ($items as $info) {
 			[$k, $v, $ref] = $info + $fill;
 			$out .= $indent
-				. '<span class="tracy-dump-key">' . Helpers::escapeHtml($k) . '</span> => '
+				. '<span class="tracy-dump-key">' . $k . '</span> => '
 				. ($ref ? '<span class="tracy-dump-hash">&' . $ref . '</span> ' : '')
 				. $this->renderVar($v, $depth + 1);
 		}
@@ -261,7 +261,7 @@ final class Renderer
 			[$k, $v, $type, $ref] = $info + $fill;
 			$title = is_string($type) ? ' title="declared in ' . Helpers::escapeHtml($type) . '"' : null;
 			$out .= $indent
-				. '<span class="' . ($title ? 'tracy-dump-private' : $classes[$type]) . '"' . $title . '>' . Helpers::escapeHtml($k) . '</span>'
+				. '<span class="' . ($title ? 'tracy-dump-private' : $classes[$type]) . '"' . $title . '>' . $k . '</span>'
 				. ': '
 				. ($ref ? '<span class="tracy-dump-hash">&' . $ref . '</span> ' : '')
 				. $this->renderVar($v, $depth + 1);
@@ -284,7 +284,7 @@ final class Renderer
 			$out = "<span class=\"tracy-toggle tracy-collapsed\">$out</span>\n<div class=\"tracy-collapsed\">";
 			foreach ($resource->items as [$k, $v]) {
 				$out .= '<span class="tracy-dump-indent">   ' . str_repeat('|  ', $depth) . '</span>'
-					. '<span class="tracy-dump-virtual">' . Helpers::escapeHtml($k) . '</span>: ' . $this->renderVar($v, $depth + 1);
+					. '<span class="tracy-dump-virtual">' . $k . '</span>: ' . $this->renderVar($v, $depth + 1);
 			}
 			return $out . '</div>';
 		}
