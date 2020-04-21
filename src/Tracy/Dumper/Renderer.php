@@ -105,7 +105,7 @@ final class Renderer
 	/**
 	 * @param  mixed  $model
 	 */
-	private function renderVar($model, int $depth = 0): string
+	private function renderVar($model, int $depth = 0, bool $isKey = false): string
 	{
 		switch (true) {
 			case $model === null:
@@ -123,7 +123,7 @@ final class Renderer
 			case is_string($model):
 				$len = strlen(utf8_decode($model));
 				return '<span class="tracy-dump-string"'
-					. ($len > 1 ? ' title="' . $len . ' characters"' : '')
+					. (!$isKey && $len > 1 ? ' title="' . $len . ' characters"' : '')
 					. ">'$model'</span>";
 
 			case is_array($model):
@@ -140,6 +140,9 @@ final class Renderer
 
 			case isset($model->text):
 				return '<span>' . Helpers::escapeHtml($model->text) . '</span>';
+
+			case isset($model->string) && $isKey:
+				return '<span class="tracy-dump-string">\'' . str_replace("\n", "\n ", $model->string) . "'</span>";
 
 			case isset($model->string):
 				return '<span class="tracy-dump-string"'
@@ -195,7 +198,8 @@ final class Renderer
 		foreach ($items as $info) {
 			[$k, $v, $ref] = $info + $fill;
 			$out .= $indent
-				. '<span class="tracy-dump-key">' . str_replace("\n", "\n ", $k) . '</span> => '
+				. $this->renderVar($k, $depth + 1, true)
+				. ' => '
 				. ($ref ? '<span class="tracy-dump-hash">&' . $ref . '</span> ' : '')
 				. ($tmp = $this->renderVar($v, $depth + 1))
 				. (substr($tmp, -6) === '</div>' ? '' : "\n");

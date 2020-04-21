@@ -52,12 +52,12 @@ $key = $objStorage->key();
 Assert::match(<<<'XX'
 SplObjectStorage #%d%
    0: array (2)
-   |  object => stdClass #%d%
-   |  data => 'o1'
+   |  'object' => stdClass #%d%
+   |  'data' => 'o1'
    1: array (2)
-   |  object => stdClass #%d%
+   |  'object' => stdClass #%d%
    |  |  foo: 'bar'
-   |  data => 'o2'
+   |  'data' => 'o2'
 XX
 , Dumper::toText($objStorage));
 
@@ -69,8 +69,8 @@ $obj = new ArrayObject(['a' => 1, 'b' => 2]);
 Assert::match(<<<'XX'
 ArrayObject #%d%
    storage: array (2)
-   |  a => 1
-   |  b => 2
+   |  'a' => 1
+   |  'b' => 2
 XX
 , Dumper::toText($obj));
 
@@ -84,7 +84,7 @@ Assert::match(<<<'XX'
 ArrayObjectChild #%d%
    prop: 123
    storage: array (2)
-   |  a => 1
-   |  b => 2
+   |  'a' => 1
+   |  'b' => 2
 XX
 , Dumper::toText($obj));
