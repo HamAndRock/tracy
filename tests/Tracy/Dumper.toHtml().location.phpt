@@ -26,23 +26,20 @@ XX
 
 
 Assert::match(<<<'XX'
-<pre class="tracy-dump"><span class="tracy-dump-object">Test</span> <span class="tracy-dump-hash">#%d%</span>
-</pre>
+<pre class="tracy-dump"><span class="tracy-dump-object">Test</span> <span class="tracy-dump-hash">#%d%</span></pre>
 XX
 , Dumper::toHtml(new Test, ['location' => false]));
 
 
 Assert::match(<<<'XX'
 <pre class="tracy-dump" title="Dumper::toHtml(new Test, [&apos;location&apos; =&gt; Dumper::LOCATION_SOURCE]))
-in file %a% on line %d%" data-tracy-href="editor:%a%"><span class="tracy-dump-object">Test</span> <span class="tracy-dump-hash">#%d%</span>
-</pre>
+in file %a% on line %d%" data-tracy-href="editor:%a%"><span class="tracy-dump-object">Test</span> <span class="tracy-dump-hash">#%d%</span></pre>
 XX
 , Dumper::toHtml(new Test, ['location' => Dumper::LOCATION_SOURCE]));
 
 
 Assert::match(<<<'XX'
-<pre class="tracy-dump"><span class="tracy-dump-object" title="Declared in file %a% on line %d%" data-tracy-href="editor:%a%">Test</span> <span class="tracy-dump-hash">#%d%</span>
-</pre>
+<pre class="tracy-dump"><span class="tracy-dump-object" title="Declared in file %a% on line %d%" data-tracy-href="editor:%a%">Test</span> <span class="tracy-dump-hash">#%d%</span></pre>
 XX
 , Dumper::toHtml(new Test, ['location' => Dumper::LOCATION_CLASS]));
 
