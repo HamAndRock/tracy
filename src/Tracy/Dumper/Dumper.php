@@ -83,6 +83,9 @@ class Dumper
 	/** @var int  how long strings display by dump() */
 	public static $maxLength = 150;
 
+	/** @var int  how many items in array/object display by dump() */
+	public static $maxItems = 50;
+
 	/** @var bool display location by dump()? */
 	public static $showLocation = false;
 
@@ -124,6 +127,7 @@ class Dumper
 		return new self([
 			self::DEPTH => Debugger::$maxDepth ?? self::$maxDepth,
 			self::TRUNCATE => Debugger::$maxLength ?? self::$maxLength,
+			self::ITEMS => self::$maxItems,
 			self::LOCATION => Debugger::$showLocation ?? self::$showLocation,
 		]);
 	}

@@ -46,6 +46,7 @@ class TracyExtension extends Nette\DI\CompilerExtension
 			'showBar' => Expect::bool()->dynamic(),
 			'maxLength' => Expect::int()->dynamic(),
 			'maxDepth' => Expect::int()->dynamic(),
+			'maxItems' => Expect::int()->dynamic(),
 			'showLocation' => Expect::bool()->dynamic(),
 			'scream' => Expect::bool()->dynamic(),
 			'bar' => Expect::listOf('string|Nette\DI\Definitions\Statement'),
@@ -91,6 +92,7 @@ class TracyExtension extends Nette\DI\CompilerExtension
 				static $tbl = [
 					'maxLength' => 'Dumper::$maxLength',
 					'maxDepth' => 'Dumper::$maxDepth',
+					'maxItems' => 'Dumper::$maxItems',
 					'showLocation' => 'Dumper::$showLocation',
 					'fromEmail' => 'Debugger::getLogger()->fromEmail',
 				];
