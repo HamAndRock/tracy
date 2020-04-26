@@ -130,6 +130,9 @@ final class Renderer
 			case is_array($model):
 				return $this->renderArray($model, $depth);
 
+			case !$model instanceof Model:
+				throw new \Exception('Unknown type');
+
 			case isset($model->object):
 				return $this->renderObject($model, $depth);
 

@@ -12,6 +12,15 @@ namespace Tracy\Dumper;
 
 /**
  * @internal
+ * @property array $array
+ * @property string $string
+ * @property string $number
+ * @property int $object
+ * @property string $resource
+ * @property array $items
+ * @property int $length
+ * @property bool|string $cut
+ * @property bool $bin
  */
 final class Model
 {

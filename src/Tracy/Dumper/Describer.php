@@ -44,10 +44,10 @@ final class Describer
 	/** @var callable[] */
 	public $resourceExposers;
 
-	/** @var callable[] */
+	/** @var array<string,callable> */
 	public $objectExposers;
 
-	/** @var int[] */
+	/** @var (int|\stdClass)[] */
 	private $references = [];
 
 	/** @var int[] */
@@ -150,6 +150,7 @@ final class Describer
 	private function describeObject(object $obj, int $depth = 0): Model
 	{
 		$id = spl_object_id($obj);
+		/** @var ?\stdClass $shot */
 		$shot = &$this->snapshot[$id];
 		if ($shot && $shot->depth <= $depth) {
 			return new Model(['object' => $id]);
@@ -197,6 +198,7 @@ final class Describer
 	private function describeResource($resource, int $depth = 0): Model
 	{
 		$id = 'r' . (int) $resource;
+		/** @var ?\stdClass $shot */
 		$shot = &$this->snapshot[$id];
 		if (!$shot) {
 			$type = get_resource_type($resource);
@@ -250,6 +252,7 @@ final class Describer
 			if ((!$rr = \ReflectionReference::fromArrayElement($arr, $key))) {
 				return null;
 			}
+			/** @var ?int $tmp */
 			$tmp = &$this->references[$rr->getId()];
 			if ($tmp === null) {
 				return $tmp = count($this->references);
